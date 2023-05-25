@@ -14,7 +14,7 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
-  final List<String> selectedAnswers = [];
+  List<String> selectedAnswers = [];
 
   void chooseAnswer(String answer) {
     selectedAnswers.add(answer);
@@ -26,19 +26,18 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     setState(
       () {
         selectedAnswers.add(answer);
-        if (selectedAnswers.length < questions.length) {
+        if (currentQuestionIndex < questions.length - 1) {
           currentQuestionIndex++;
-        } else if (selectedAnswers.length == questions.length) {
+        } else {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => const ShowResults(
-                        chosenAnswers: [],
+                  builder: (context) => ShowResults(
+                        chosenAnswers: selectedAnswers,
                       )));
         }
       },
     );
-    debugPrint('Derrick');
     debugPrint(selectedAnswers.toString());
   }
 

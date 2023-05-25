@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'data/questions.dart';
 
 class ResultsList extends StatefulWidget {
   const ResultsList({
     super.key,
-    required this.someList,
+    required this.myAnswer,
+    required this.correctAnswer,
+    required this.theQuestion,
+    required this.questionNumber,
   });
 
-  final String someList;
+  final String myAnswer;
+  final String correctAnswer;
+  final String theQuestion;
+  final String questionNumber;
 
   @override
   State<ResultsList> createState() => _ResultsListState();
@@ -25,50 +32,60 @@ class _ResultsListState extends State<ResultsList> {
               height: 24,
               width: 24,
               decoration: BoxDecoration(
-                  color: Colors.amber, borderRadius: BorderRadius.circular(40)),
-              child: const Text('1'),
+                color: widget.correctAnswer == widget.myAnswer
+                    ? Colors.green
+                    : Colors.red,
+                borderRadius: BorderRadius.circular(40),
+              ),
+              child: Text(
+                widget.questionNumber,
+                style: TextStyle(
+                  color: widget.correctAnswer == widget.myAnswer
+                      ? Colors.black
+                      : Colors.white,
+                ),
+              ),
             ),
             const SizedBox(
               width: 16,
             ),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   width: 300,
-                  child: Text(
-                      'This will be the question. It can bfdfd fdfdfdfe long',
+                  child: Text(widget.theQuestion,
                       softWrap: true,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                           color: Colors.white,
                           height: 1.3)),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
-                Text('Correct Answer',
+                Text(widget.correctAnswer,
                     softWrap: true,
-                    style: TextStyle(
+                    style: const TextStyle(
                         // fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        color: Colors.pinkAccent,
+                        color: Colors.amber,
                         height: 1.3)),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 SizedBox(
                   width: 300,
-                  child: Text('Your Answer',
+                  child: Text(widget.myAnswer,
                       softWrap: true,
-                      style: TextStyle(
+                      style: const TextStyle(
                           // fontWeight: FontWeight.bold,
                           fontSize: 16,
                           color: Colors.lightBlueAccent,
                           height: 1.3)),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 32,
                 )
               ],
