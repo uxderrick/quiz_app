@@ -8,19 +8,25 @@ import 'questions_screen.dart';
 import 'data/questions.dart';
 
 class ShowResults extends StatefulWidget {
-  const ShowResults({super.key, required this.chosenAnswers});
+  ShowResults({super.key, required this.chosenAnswers});
 
   final List<String> chosenAnswers;
 
+  @override
+  State<ShowResults> createState() => _ShowResultsState();
+}
+
+class _ShowResultsState extends State<ShowResults> {
+  //
   List<Map<String, Object>> getSummaryData() {
     final List<Map<String, Object>> summary = [];
 
-    for (var i = 0; i < chosenAnswers.length; i++) {
+    for (var i = 0; i < widget.chosenAnswers.length; i++) {
       summary.add({
         'questionNumber': (i + 1).toString(),
         'question': questions[i].text,
         'correctAnswer': questions[i].answers[0],
-        'userAnswer': chosenAnswers[i],
+        'userAnswer': widget.chosenAnswers[i],
       });
     }
 
@@ -28,13 +34,12 @@ class ShowResults extends StatefulWidget {
   }
 
   @override
-  State<ShowResults> createState() => _ShowResultsState();
-}
-
-class _ShowResultsState extends State<ShowResults> {
-  @override
   Widget build(BuildContext context) {
-    List<Map<String, Object>> summaryData = widget.getSummaryData();
+    List<Map<String, Object>> summaryData = getSummaryData();
+
+    final numQuestionsCorrect = summaryData.where((data) {
+      return data['userAnswer'] == data['correctAnswer'];
+    }).length;
 
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +50,7 @@ class _ShowResultsState extends State<ShowResults> {
           GestureDetector(
             onTap: () {
               widget.chosenAnswers.clear();
-              print(widget.chosenAnswers);
+              // print(widget.chosenAnswers);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const StartScreen()));
             },
@@ -66,7 +71,8 @@ class _ShowResultsState extends State<ShowResults> {
             child: Center(
               child: Column(
                 children: [
-                  Text('You have answered 3 out of 6 questions correctly!',
+                  Text(
+                      'You have answered $numQuestionsCorrect out of  ${questions.length} questions correctly!',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.acme(
                           fontWeight: FontWeight.bold,
@@ -93,16 +99,6 @@ class _ShowResultsState extends State<ShowResults> {
                           );
                         }),
                   ),
-                  // ResultsList(
-                  //   myAnswer: widget.chosenAnswers[0],
-                  //   correctAnswer: summaryData[0]['correctAnswer'] as String,
-                  //   theQuestion: summaryData[0]['question'] as String,
-                  //   questionNumber:
-                  //       summaryData[0 + 1]['questionNumber'] as String,
-                  // ),
-                  // ResultsList(correctAnswer: '', questionNumber: '', myAnswer: '', theQuestion: '',),
-                  // ResultsList(),
-                  // ResultsList(),
                 ],
               ),
             ),
