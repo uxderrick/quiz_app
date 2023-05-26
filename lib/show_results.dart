@@ -3,9 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/data/questions.dart';
 import 'package:quiz_app/results_list.dart';
 import 'package:quiz_app/start_screen.dart';
-import 'data/questions.dart';
-import 'questions_screen.dart';
-import 'data/questions.dart';
 
 class ShowResults extends StatefulWidget {
   ShowResults({super.key, required this.chosenAnswers});
